@@ -569,6 +569,8 @@ def main():
             image_save_path = os.path.join(images_root, f"{epoch}_epoch_images.jpg")
             save_images(model, image_save_path, args.placeholder_token)    
     
+    embed_save_path = os.path.join(args.output_dir, "learned_embeds.bin")
+    save_embeds(model, embed_save_path, args.placeholder_token, t1_place_token_id, t2_place_token_id)
 
 if __name__ == "__main__":
     main()
