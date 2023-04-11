@@ -1,8 +1,11 @@
 # Kandinsky 2.1 Textual Inversion Implementation (Training/Inference)
-<a href="https://github.com/ai-forever/Kandinsky-2">Original repo</a>
+<a href="https://github.com/ai-forever/Kandinsky-2">Original Kandinsky repository</a>
 
-# Textual Inversion (TI)
-<a href="https://textual-inversion.github.io/"> Original TI paper and code </a>  
+Result example (For this result enough 500-1000 epochs):  
+  
+![](./content/textual_inversion_generation_example.png)
+
+<a href="https://textual-inversion.github.io/"> Original Textual Inversion paper and code </a>  
 
 Textual Inversion training approach allows append new token to the text encoder model and train it to represent selected images.  
 For this goal you need only 3-5 images.  
@@ -33,10 +36,6 @@ python ./train_textual_inversion.py \
    --img_size=512 \
    --epochs=2000 
 ```
-
-Result example (For this result enough 500-1000 epochs):  
-  
-![](./content/textual_inversion_generation_example.png)
   
 `WARNING:`  
 
