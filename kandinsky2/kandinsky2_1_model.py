@@ -86,7 +86,7 @@ class Kandinsky2_1:
         else:
             self.use_image_enc = False
             
-        self.config["model_config"]["cache_text_emb"] = True
+        self.config["model_config"]["cache_text_emb"] = False
         self.model = create_model(**self.config["model_config"])
         self.model.load_state_dict(torch.load(model_path))
         if self.use_fp16:

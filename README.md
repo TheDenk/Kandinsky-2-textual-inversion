@@ -1,8 +1,54 @@
-# Kandinsky 2.1
+# Kandinsky 2.1 Textual Inversion Implementation (Training/Inference)
+<a href="https://github.com/ai-forever/Kandinsky-2">Original repo</a>
+
+# Textual Inversion (TI)
+<a href="https://textual-inversion.github.io/"> Original TI paper and code </a>  
+
+Textual Inversion training approach allows append new token to the text encoder model and train it to represent selected images.  
+For this goal you need only 3-5 images.  
+  
+Original TI approach for latent-diffusion model training embedding for one text encoder. But Kandinsky-2.1 has two textual encoders. So peculiarity of this realisation is that we are training two embeddings.  
+
+Simple steps for training:
+ 1. Put your 4-5 (or more if you want) images in folder (images names does not matter). For example my images in `./finetune/input/sapsan.`
+ 2. Create unique word for your object and general word describing an object. For example my unique word is `sapsan` and general word is `train`, because sapsan is train.
+ 3. Run train script with your parameters. Optionaly you can set output directory, by default all files will be saved to a `textual-inversion` folder.
+
+You can use jupyter notebooks or .py file for training. And jupyter notebook for inference.  
+Jupyter notebooks:  
+ - notebooks/train_textual_inversion.ipynb
+ - notebooks/inference_textual_inversion.ipynb
+  
+Training cli command example:  
+
+```
+python ./train_textual_inversion.py \
+   --cache_root="/tmp/kandinsky2" \
+   --data_root="./finetune/input/sapsan" \
+   --output_dir="./finetune/output/sapsan" \
+   --placeholder_token="sapsan" \
+   --initializer_token="train" \
+   --log_image_frequency=-1 \
+   --log_embed_frequency=250 \
+   --img_size=512 \
+   --epochs=2000 
+```
+
+Result example (For this result enough 500-1000 epochs):  
+  
+![](./content/textual_inversion_generation_example.png)
+  
+`WARNING:`  
+
+Training process requires GPU card with 24 GB minimum.   
+At present time it takes 22-24 GB GPU memory. Due to training on fp32.   
+With log_image_frequency > 0 it takes 27-28 GPU mem. So, set log_image_frequency=-1 to reduce using GPU mem.   
+  
+
+# Original Information
 
 [![Framework: PyTorch](https://img.shields.io/badge/Framework-PyTorch-orange.svg)](https://pytorch.org/) [![Huggingface space](https://img.shields.io/badge/🤗-Huggingface-yello.svg)](https://huggingface.co/sberbank-ai/Kandinsky_2.1)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1xSbu-b-EwYd6GdaFPRVgvXBX_mciZ41e?usp=sharing)
-
 
 [Habr post](https://habr.com/ru/company/sberbank/blog/725282/)
 

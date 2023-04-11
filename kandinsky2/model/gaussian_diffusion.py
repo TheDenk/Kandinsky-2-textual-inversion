@@ -462,17 +462,17 @@ class GaussianDiffusion:
 
         for i in indices:
             t = th.tensor([i] * shape[0], device=device)
-            with th.no_grad():
-                out = self.p_sample(
-                    model,
-                    img,
-                    t,
-                    clip_denoised=clip_denoised,
-                    denoised_fn=denoised_fn,
-                    model_kwargs=model_kwargs,
-                )
-                yield out
-                img = out["sample"]
+            # with th.no_grad():
+            out = self.p_sample(
+                model,
+                img,
+                t,
+                clip_denoised=clip_denoised,
+                denoised_fn=denoised_fn,
+                model_kwargs=model_kwargs,
+            )
+            yield out
+            img = out["sample"]
 
     def ddim_sample(
         self,
@@ -621,18 +621,18 @@ class GaussianDiffusion:
 
         for i in indices:
             t = th.tensor([i] * shape[0], device=device)
-            with th.no_grad():
-                out = self.ddim_sample(
-                    model,
-                    img,
-                    t,
-                    clip_denoised=clip_denoised,
-                    denoised_fn=denoised_fn,
-                    model_kwargs=model_kwargs,
-                    eta=eta,
-                )
-                yield out
-                img = out["sample"]
+            # with th.no_grad():
+            out = self.ddim_sample(
+                model,
+                img,
+                t,
+                clip_denoised=clip_denoised,
+                denoised_fn=denoised_fn,
+                model_kwargs=model_kwargs,
+                eta=eta,
+            )
+            yield out
+            img = out["sample"]
 
     def _vb_terms_bpd(
         self, model, x_start, x_t, t, clip_denoised=True, model_kwargs=None
@@ -784,15 +784,15 @@ class GaussianDiffusion:
             noise = th.randn_like(x_start)
             x_t = self.q_sample(x_start=x_start, t=t_batch, noise=noise)
             # Calculate VLB term at the current timestep
-            with th.no_grad():
-                out = self._vb_terms_bpd(
-                    model,
-                    x_start=x_start,
-                    x_t=x_t,
-                    t=t_batch,
-                    clip_denoised=clip_denoised,
-                    model_kwargs=model_kwargs,
-                )
+            # with th.no_grad():
+            out = self._vb_terms_bpd(
+                model,
+                x_start=x_start,
+                x_t=x_t,
+                t=t_batch,
+                clip_denoised=clip_denoised,
+                model_kwargs=model_kwargs,
+            )
             vb.append(out["output"])
             xstart_mse.append(mean_flat((out["pred_xstart"] - x_start) ** 2))
             eps = self._predict_eps_from_xstart(x_t, t_batch, out["pred_xstart"])
