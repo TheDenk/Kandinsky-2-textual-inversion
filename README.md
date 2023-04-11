@@ -12,10 +12,17 @@ For this goal you need only 3-5 images.
   
 Original TI approach for latent-diffusion model training embedding for one text encoder. But Kandinsky-2.1 has two textual encoders. So peculiarity of this realisation is that we are training two embeddings.  
 
+Requirements
+```
+pip install "git+https://github.com/openai/CLIP.git"
+pip install "git+https://github.com/TheDenk/Kandinsky-2-textual-inversion.git"
+```
+
 Simple steps for training:
  1. Put your 4-5 (or more if you want) images in folder (images names does not matter). For example my images in `./finetune/input/sapsan.`
  2. Create unique word for your object and general word describing an object. For example my unique word is `sapsan` and general word is `train`, because sapsan is train.
- 3. Run train script with your parameters. Optionaly you can set output directory, by default all files will be saved to a `textual-inversion` folder.
+ 3. Run train script with your parameters. 
+ 4. Script automatically create all paths for your output directories. by default all files will be saved to a `textual-inversion` folder.
 
 You can use jupyter notebooks or .py file for training. And jupyter notebook for inference.  
 Jupyter notebooks:  
