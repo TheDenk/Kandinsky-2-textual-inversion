@@ -1,14 +1,14 @@
-# Kandinsky 2.1 Textual Inversion Implementation (Training/Inference)
+# Kandinsky 2.1 Textual Inversion And Dreambooth Implementation (Training/Inference)
 <a href="https://github.com/ai-forever/Kandinsky-2">Original Kandinsky repository</a>
 
-Result example (For this result enough 500-1000 epochs):  
+## Textual Inversion
+<a href="https://textual-inversion.github.io/"> Original Textual Inversion paper and code </a>    
+Kandinsky 2.1. Result example (For this result enough 500-1000 epochs / about 1 hour):  
   
 ![](./content/textual_inversion_generation_example.png)
 
-<a href="https://textual-inversion.github.io/"> Original Textual Inversion paper and code </a>  
 
 Textual Inversion training approach allows append new token to the text encoder model and train it to represent selected images.  
-For this goal you need only 3-5 images.  
   
 Original TI approach for latent-diffusion model training embedding for one text encoder. But Kandinsky-2.1 has two textual encoders. So peculiarity of this realisation is that we are training two embeddings.  
 
@@ -18,11 +18,13 @@ pip install "git+https://github.com/openai/CLIP.git"
 pip install "git+https://github.com/TheDenk/Kandinsky-2-textual-inversion.git"
 ```
 
-Simple steps for training:
- 1. Put your 4-5 (or more if you want) images in folder (images names does not matter). For example my images in `./finetune/input/sapsan.`
+Steps for training:
+ 1. Put your 4-5 (or more if you want) images in folder (images names does not matter). For example my images in `./finetune/input/sapsan`
  2. Create unique word for your object and general word describing an object. For example my unique word is `sapsan` and general word is `train`, because sapsan is train.
- 3. Run train script with your parameters. 
- 4. Script automatically create all paths for your output directories. by default all files will be saved to a `textual-inversion` folder.
+ 3. Run train script with your parameters. Also you can define output directory for embeddings and images. 
+
+Script automatically create all paths for your output directories. by default all files will be saved to a `textual-inversion` folder.
+For inference you should load embeddings for your class from output directory.
 
 You can use jupyter notebooks or .py file for training. And jupyter notebook for inference.  
 Jupyter notebooks:  
@@ -49,7 +51,37 @@ python ./train_textual_inversion.py \
 Training process requires GPU card with 24 GB minimum.   
 At present time it takes 22-24 GB GPU memory. Due to training on fp32.   
 With log_image_frequency > 0 it takes 27-28 GPU mem. So, set log_image_frequency=-1 to reduce using GPU mem.   
-  
+
+## Dreambooth
+<a href="https://dreambooth.github.io/"> Original Dreambooth paper and code </a>  
+
+Kandinsky 2.1 Result example.  
+![](./content/dreambooth_generation_example.png)
+
+Dreambooth training approach allows finetune only unet diffusion model to represent selected classes.  
+Requirements
+```
+pip install "git+https://github.com/openai/CLIP.git"
+pip install "git+https://github.com/TheDenk/Kandinsky-2-textual-inversion.git"
+```
+
+Steps for training:
+ 1. Put your 3-5 images in folder (images names does not matter). For example my images in `./finetune/input/sapsan/instance_images`
+ 2. Create unique word for your object and general word describing an object. For example my unique word is `sapsan` and general word is `train`, because sapsan is train.
+ 3. Define class_images directory. This is required for preservation loss.
+ 3. Run train script with your parameters. Also you can define output directory for checkpoints and images. 
+
+Script automatically create all paths for your output directories. By default all files will be saved to a `dreamboth` folder.
+For inference you should load unet new model from output directory. 
+
+You can use jupyter notebooks file for training. And jupyter notebook for inference.  
+Jupyter notebooks:  
+ - notebooks/train_dreambooth.ipynb
+ - notebooks/inference_dreambooth.ipynb
+
+`WARNING:`  
+
+Training process requires GPU card with 32 GB minimum.   
 
 # Original Information
 
